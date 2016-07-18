@@ -1,0 +1,38 @@
+<form id="form1" action="/test/uploadfile" method="POST"  enctype="multipart/form-data">
+  <!-- <label for="name">NAME:</label>
+  <input type="text" id="name" name="name">
+  <br> -->
+  <label for="file1">FILE1:</label>
+  <input type="file" id="file1" name="file1" multiple="multiple">
+  <br>
+</form>
+<button id="submit">submit</button>
+
+<script>
+$(document).ready(function() {
+
+  $('#submit').click(function(){
+    //$('#form1').submit();
+    var data = new FormData();
+    $.each($('#file1')[0].files, function(i, file) {
+      console.log(i+JSON.stringify(file));
+      data.append('file-'+i, file);
+    });
+    $.ajax({
+      url: '/test/uploadfile',
+      method: 'post',
+      data: data,
+      enctype: 'multipart/form-data',
+      contentType: false, //必须
+      processData: false, //必须
+      success: function(){
+        console.log('success');
+      },
+      error: function(){
+        console.log('error');
+      }
+    });
+  });
+
+});
+</script>
